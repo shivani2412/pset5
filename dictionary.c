@@ -32,8 +32,9 @@ bool check(const char *word)
     char temp[LENGTH+1];
     int length= strlen(word);
     for(int i = 0; i < length; i++)
-    
+    {
         temp[i] = tolower(word[i]);
+    }
     temp[length] = '\0';
     
     
@@ -55,7 +56,10 @@ bool check(const char *word)
         {
             return true;
         }
+        else
+        {
         pointer = pointer->next;
+        }
     }
     
     // if you don't find the word, return false
@@ -113,14 +117,15 @@ bool load(const char *dictionary)
 
 
 int hash(const char*word)
-{
-    int j=0;
-    for(int i=0;i<word[i]!='\0';i++)
+{ 
+    
+    unsigned int j=0;
+    for(int i=0, n=strlen(word);i<n;i++)
     {
-        j=j+tolower(word[i]);
+        j=(j<<2)^word[i];
         
     }
-    return j%27;
+    return j%SIZE;
 }
 /**
  * Returns number of words in dictionary if loaded else 0 if not yet loaded.
