@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include<ctype.h>
 #include<strings.h>
+#include<string.h>
 #include "dictionary.h"
 
 int hash (const char *word);
@@ -14,8 +15,9 @@ typedef struct node
     char *word[27];
     struct node*next;
 }node;
-int count=0;
-node *hashtable[27];
+
+node *hashtable[27]=NULL;
+    int count=0;
 
 /**
  * Returns true if word is in dictionary else false.
@@ -23,6 +25,35 @@ node *hashtable[27];
 bool check(const char *word)
 {
     // TODO
+    char temp[LENGTH + 1];
+    int len = strlen(word);
+    for(int i = 0; i < len; i++)
+        temp[i] = tolower(word[i]);
+    temp[len] = '\0';
+    
+    // find what index of the array the word should be in
+    int index = hash(temp);
+    
+    // if hashtable is empty at index, return false
+    if (hashtable[index] == NULL)
+    {
+        return false;
+    }
+    
+    // create cursor to compare to word
+    node* cursor = hashtable[index];
+    
+    // if hashtable is not empty at index, iterate through words and compare
+    while (cursor != NULL)
+    {
+        if (strcmp(temp, cursor->word) == 0)
+        {
+            return true;
+        }
+        cursor = cursor->next;
+    }
+    
+    // if you don't find the word, return false
     return false;
 }
 
