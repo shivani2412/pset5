@@ -2,21 +2,21 @@
  * Implements a dictionary's functionality.
  */
 
-#include <stdbool.h>
-#include<stdio.h>
-#include<ctype.h>
-#include<strings.h>
-#include<string.h>
-#include<math.h>
-#include<stdlib.h>
-#include "dictionary.h"
+# include <stdbool.h>
+# include<stdio.h>
+# include<ctype.h>
+# include<strings.h>
+# include<string.h>
+# include<math.h>
+# include<stdlib.h>
+# include "dictionary.h"
 #define SIZE 100000 
 
 
-int hash (const char *word);
+int hash(const char *word);
 typedef struct node
 {
-    char word[LENGTH+1];
+    char word[LENGTH + 1];
     struct node*next;
 }node;
 
@@ -29,7 +29,7 @@ node *hashtable[SIZE]={NULL};
 bool check(const char *word)
 {
     
-    char temp[LENGTH+1];
+    char temp[LENGTH + 1];
     int length= strlen(word);
     for(int i = 0; i < length; i++)
     {
@@ -58,7 +58,7 @@ bool check(const char *word)
         }
         else
         {
-        pointer = pointer->next;
+            pointer = pointer->next;
         }
     }
     
@@ -71,11 +71,13 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
-    char word[LENGTH+1];
+    char word[LENGTH + 1];
     FILE*spell=fopen(dictionary,"r");
-    if(spell==NULL)
-    return false;
-    while(fscanf(spell,"%s\n",word)!=EOF)
+    if (spell == NULL)
+    {
+        return false;
+    }
+    while(fscanf(spell,"%s\n",word) != EOF)
     {
          
         
@@ -120,12 +122,12 @@ int hash(const char*word)
 { 
     
     unsigned int j=0;
-    for(int i=0, n=strlen(word);i<n;i++)
+    for(int i=0, n=strlen(word);i < n;i++)
     {
-        j=(j<<2)^word[i];
+        j = (j << 2) ^ word[i];
         
     }
-    return j%SIZE;
+    return j % SIZE;
 }
 /**
  * Returns number of words in dictionary if loaded else 0 if not yet loaded.
@@ -139,7 +141,7 @@ unsigned int size(void)
      
     // if dictionary hasn't been loaded, return 0
     else
-return 0;
+        return 0;
     return 0;
 }
 
