@@ -24,33 +24,34 @@ node *hashtable[27]=NULL;
  */
 bool check(const char *word)
 {
-    // TODO
-    char temp[LENGTH + 1];
-    int len = strlen(word);
-    for(int i = 0; i < len; i++)
+    
+    char temp[27];
+    int length= strlen(word);
+    for(int i = 0; i < length; i++)
+    
         temp[i] = tolower(word[i]);
     temp[len] = '\0';
     
-    // find what index of the array the word should be in
+    
     int index = hash(temp);
     
-    // if hashtable is empty at index, return false
+
     if (hashtable[index] == NULL)
     {
         return false;
     }
     
-    // create cursor to compare to word
-    node* cursor = hashtable[index];
+    // create pointer to compare to word
+    node* pointer = hashtable[index];
     
-    // if hashtable is not empty at index, iterate through words and compare
-    while (cursor != NULL)
+    
+    while (pointer != NULL)
     {
-        if (strcmp(temp, cursor->word) == 0)
+        if (strcmp(temp, pointer->word) == 0)
         {
             return true;
         }
-        cursor = cursor->next;
+        pointer = pointer->next;
     }
     
     // if you don't find the word, return false
@@ -121,7 +122,14 @@ int hash(const char*word)
  */
 unsigned int size(void)
 {
-    // TODO
+    if (count > 0)
+    {
+        return count;
+    }
+     
+    // if dictionary hasn't been loaded, return 0
+    else
+return 0;
     return 0;
 }
 
