@@ -7,16 +7,20 @@
 #include<ctype.h>
 #include<strings.h>
 #include<string.h>
+#include<math.h>
+#include<stdlib.h>
 #include "dictionary.h"
+#define SIZE 100000 
+
 
 int hash (const char *word);
 typedef struct node
 {
-    char *word[27];
+    char word[LENGTH+1];
     struct node*next;
 }node;
 
-node *hashtable[27]=NULL;
+node *hashtable[SIZE]={NULL};
     int count=0;
 
 /**
@@ -25,12 +29,12 @@ node *hashtable[27]=NULL;
 bool check(const char *word)
 {
     
-    char temp[27];
+    char temp[LENGTH+1];
     int length= strlen(word);
     for(int i = 0; i < length; i++)
     
         temp[i] = tolower(word[i]);
-    temp[len] = '\0';
+    temp[length] = '\0';
     
     
     int index = hash(temp);
@@ -63,6 +67,7 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
+    char word[LENGTH+1];
     FILE*spell=fopen(dictionary,"r");
     if(spell==NULL)
     return false;
@@ -73,7 +78,7 @@ bool load(const char *dictionary)
         node *new = malloc(sizeof(node));
 
         
-        new->word = malloc(strlen(word) + 1);
+        
 
     
         strcpy(new->word, word);
@@ -110,12 +115,12 @@ bool load(const char *dictionary)
 int hash(const char*word)
 {
     int j=0;
-    for(int i=0;i<word[i]!='/0';i++)
+    for(int i=0;i<word[i]!='\0';i++)
     {
         j=j+tolower(word[i]);
         
     }
-    return j%27
+    return j%27;
 }
 /**
  * Returns number of words in dictionary if loaded else 0 if not yet loaded.
@@ -138,6 +143,36 @@ return 0;
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+    
+    
+    int index = 0;
+    
+    // start of the while loop
+    while (index < SIZE)
+    {
+        // moving to the next index
+        if (hashtable[index] == NULL)
+        {
+            index++;
+        }
+        
+        
+        else
+        {
+            while(hashtable[index] != NULL)
+            {
+                node* pointer = hashtable[index];
+                hashtable[index] = pointer->next;
+                free(pointer);
+            }
+            
+        
+            index++;
+        }
+    }
+    
+    // return true if successful
+    return true;
 }
+
+    
